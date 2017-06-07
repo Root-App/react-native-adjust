@@ -56,29 +56,21 @@ class AdjustCommandExecutor {
 
     factory(params) {
         if ('basePath' in params) {
-            this.basePath = this.getValueFromKey(params, 'basePath')[0];
+            this.basePath = this.getFirstParameterValue(params, 'basePath');
         }
     }
 
     teardown(params) {
         if ('deleteState' in params) {
-            var deleteState = (this.getValueFromKey(params, 'deleteState')[0] == 'true');
+            var deleteState = (this.getFirstParameterValue(params, 'deleteState') == 'true');
             Adjust.teardown(deleteState);
         }
-    }
-
-    getValueFromKey(params, key) {
-        if (key in params) {
-            return params[key];
-        }
-
-        return null;
     }
 
     config(params) {
         var configName = "";
         if ('configName' in params) {
-            configName = this.getValueFromKey(params, 'configName')[0];
+            configName = this.getFirstParameterValue(params, 'configName');
         } else {
             configName = this.DefaultConfigName;
         }
@@ -89,15 +81,15 @@ class AdjustCommandExecutor {
             adjustConfig = new AdjustConfig(null, null);
             adjustConfig.clone(frozenAdjustConfig);
         } else {
-            var environment = this.getValueFromKey(params, 'environment')[0];
-            var appToken = this.getValueFromKey(params, 'appToken')[0];
+            var environment = this.getFirstParameterValue(params, 'environment');
+            var appToken = this.getFirstParameterValue(params, 'appToken');
 
             adjustConfig = new AdjustConfig(appToken, environment);
             this.savedInstances[configName] = adjustConfig;
         }
 
         if ('logLevel' in params) {
-            var logLevelS = this.getValueFromKey(params, 'logLevel')[0];
+            var logLevelS = this.getFirstParameterValue(params, 'logLevel');
             var logLevel = null;
             switch (logLevelS) {
                 case "verbose": logLevel = AdjustConfig.LogLevelVerbose;
@@ -120,30 +112,30 @@ class AdjustCommandExecutor {
         }
 
         if ('defaultTracker' in params) {
-            var defaultTracker = this.getValueFromKey(params, 'defaultTracker')[0];
+            var defaultTracker = this.getFirstParameterValue(params, 'defaultTracker');
             adjustConfig.setDefaultTracker(defaultTracker);
         }
 
         if ('delayStart' in params) {
-            var delayStartS = this.getValueFromKey(params, 'delayStart')[0];
+            var delayStartS = this.getFirstParameterValue(params, 'delayStart');
             var delayStart = parseFloat(delayStartS);
             adjustConfig.setDelayStart(delayStart);
         }
 
         if ('eventBufferingEnabled' in params) {
-            var eventBufferingEnabledS = this.getValueFromKey(params, 'eventBufferingEnabled')[0];
+            var eventBufferingEnabledS = this.getFirstParameterValue(params, 'eventBufferingEnabled');
             var eventBufferingEnabled = (eventBufferingEnabledS == 'true');
             adjustConfig.setEventBufferingEnabled(eventBufferingEnabled);
         }
 
         if ('sendInBackground' in params) {
-            var sendInBackgroundS = this.getValueFromKey(params, 'sendInBackground')[0];
+            var sendInBackgroundS = this.getFirstParameterValue(params, 'sendInBackground');
             var sendInBackground = (sendInBackgroundS == 'true');
             adjustConfig.setSendInBackground(sendInBackground);
         }
 
         if ('userAgent' in params) {
-            var userAgent = this.getValueFromKey(params, 'userAgent')[0];
+            var userAgent = this.getFirstParameterValue(params, 'userAgent');
             adjustConfig.setUserAgent(userAgent);
         }
 
@@ -155,7 +147,7 @@ class AdjustCommandExecutor {
         this.config(params);
         var configName = null;
         if ('configName' in params) {
-            configName = this.getValueFromKey(params, 'configName')[0];
+            configName = this.getFirstParameterValue(params, 'configName');
         } else {
             configName = this.DefaultConfigName;
         }
@@ -174,7 +166,7 @@ class AdjustCommandExecutor {
     event(params) {
         var eventName = null;
         if ('eventName' in params) {
-            eventName = this.getValueFromKey(params, 'eventName')[0];
+            eventName = this.getFirstParameterValue(params, 'eventName');
         } else {
             eventName = this.DefaultEventName;
         }
@@ -185,7 +177,7 @@ class AdjustCommandExecutor {
             adjustEvent = new AdjustEvent(null);
             adjustEvent.clone(frozenAdjustEvent);
         } else {
-            var eventToken = this.getValueFromKey(params, 'eventToken')[0];
+            var eventToken = this.getFirstParameterValue(params, 'eventToken');
             adjustEvent = new AdjustEvent(eventToken);
             this.savedInstances[eventName] = adjustEvent;
         } 
@@ -215,7 +207,7 @@ class AdjustCommandExecutor {
         }
         //TODO: Add JS wrapper for order Id
         //if ('orderId' in params) {
-        //var orderId = this.getValueFromKey(params, 'orderId')[0];
+        //var orderId = this.getFirstParameterValue(params, 'orderId');
         //adjustEvent.setOrderId(orderId);
         //}
 
@@ -229,7 +221,7 @@ class AdjustCommandExecutor {
         this.event(params);
         var eventName = null;
         if ('eventName' in params) {
-            eventName = this.getValueFromKey(params, 'eventName')[0];
+            eventName = this.getFirstParameterValue(params, 'eventName');
         } else {
             eventName = this.DefaultEventName;
         }
@@ -238,7 +230,7 @@ class AdjustCommandExecutor {
     }
 
     setReferrer(params) {
-        var referrer = this.getValueFromKey(params, 'referrer')[0];
+        var referrer = this.getFirstParameterValue(params, 'referrer');
         Adjust.setReferrer(referrer);
     }
 
@@ -251,12 +243,12 @@ class AdjustCommandExecutor {
     }
 
     setEnabled(params) {
-        var enabled = this.getValueFromKey(params, "enabled")[0] == 'true';
+        var enabled = this.getFirstParameterValue(params, "enabled") == 'true';
         Adjust.setEnabled(enabled);
     }
 
     setOfflineMode(params) {
-        var enabled = this.getValueFromKey(params, "enabled")[0] == 'true';
+        var enabled = this.getFirstParameterValue(params, "enabled") == 'true';
         Adjust.setOfflineMode(enabled);
     }
 
@@ -283,12 +275,12 @@ class AdjustCommandExecutor {
     }
 
     removeSessionCallbackParameter(params) {
-        var key = this.getValueFromKey(params, 'key')[0];
+        var key = this.getFirstParameterValue(params, 'key');
         Adjust.removeSessionCallbackParameter(key);
     }
 
     removeSessionPartnerParameter(params) {
-        var key = this.getValueFromKey(params, 'key')[0];
+        var key = this.getFirstParameterValue(params, 'key');
 
         Adjust.removeSessionPartnerParameter(key);
     }
@@ -302,20 +294,20 @@ class AdjustCommandExecutor {
     }
 
     setPushToken(params) {
-        var token = this.getValueFromKey(params, 'pushToken')[0];
+        var token = this.getFirstParameterValue(params, 'pushToken');
         Adjust.setPushToken(token);
     }
 
     openDeeplink(params) {
         console.log("[*RN*] openDeeplink");
-        var deeplink = this.getValueFromKey(params, "deeplink")[0];
+        var deeplink = this.getFirstParameterValue(params, "deeplink");
         Adjust.appWillOpenUrl(deeplink);
     }
 
     testBegin(params) {
         console.log("[*RN*] testBegin");
         if ('basePath' in params) {
-            this.basePath = this.getValueFromKey(params, "basePath")[0];
+            this.basePath = this.getFirstParameterValue(params, "basePath");
         }
 
         Adjust.teardown(true);
@@ -329,6 +321,25 @@ class AdjustCommandExecutor {
     testEnd(params) {
         console.log("[*RN*] testEnd");
         Adjust.teardown(true);
+    }
+
+    getValueFromKey(params, key) {
+        if (key in params) {
+            return params[key];
+        }
+
+        return null;
+    }
+
+    getFirstParameterValue(params, key) {
+        if (key in params) {
+            var param = params[key];
+            if(param != null || param.length >= 1) {
+                return param[0];
+            }
+        }
+
+        return null;
     }
 }
 
