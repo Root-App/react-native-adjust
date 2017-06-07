@@ -56,21 +56,29 @@ class AdjustCommandExecutor {
 
     factory(params) {
         if ('basePath' in params) {
-            this.basePath = params['basePath'][0];
+            this.basePath = this.getValueFromKey(params, 'basePath')[0];
         }
     }
 
     teardown(params) {
         if ('deleteState' in params) {
-            var deleteState = (params['deleteState'][0] == 'true');
+            var deleteState = (this.getValueFromKey(params, 'deleteState')[0] == 'true');
             Adjust.teardown(deleteState);
         }
+    }
+
+    getValueFromKey(params, key) {
+        if (key in params) {
+            return params[key];
+        }
+
+        return null;
     }
 
     config(params) {
         var configName = "";
         if ('configName' in params) {
-            configName = params['configName'][0];
+            configName = this.getValueFromKey(params, 'configName')[0];
         } else {
             configName = this.DefaultConfigName;
         }
@@ -81,16 +89,15 @@ class AdjustCommandExecutor {
             adjustConfig = new AdjustConfig(null, null);
             adjustConfig.clone(frozenAdjustConfig);
         } else {
-            console.log("YAAAAAAAAY");
-            var environment = params['environment'][0];
-            var appToken = params['appToken'][0];
+            var environment = this.getValueFromKey(params, 'environment')[0];
+            var appToken = this.getValueFromKey(params, 'appToken')[0];
 
             adjustConfig = new AdjustConfig(appToken, environment);
             this.savedInstances[configName] = adjustConfig;
         }
 
         if ('logLevel' in params) {
-            var logLevelS = params['logLevel'][0];
+            var logLevelS = this.getValueFromKey(params, 'logLevel')[0];
             var logLevel = null;
             switch (logLevelS) {
                 case "verbose": logLevel = AdjustConfig.LogLevelVerbose;
@@ -113,30 +120,30 @@ class AdjustCommandExecutor {
         }
 
         if ('defaultTracker' in params) {
-            var defaultTracker = params['defaultTracker'][0];
+            var defaultTracker = this.getValueFromKey(params, 'defaultTracker')[0];
             adjustConfig.setDefaultTracker(defaultTracker);
         }
 
         if ('delayStart' in params) {
-            var delayStartS = params['delayStart'][0];
+            var delayStartS = this.getValueFromKey(params, 'delayStart')[0];
             var delayStart = parseFloat(delayStartS);
             adjustConfig.setDelayStart(delayStart);
         }
 
         if ('eventBufferingEnabled' in params) {
-            var eventBufferingEnabledS = params['eventBufferingEnabled'][0];
+            var eventBufferingEnabledS = this.getValueFromKey(params, 'eventBufferingEnabled')[0];
             var eventBufferingEnabled = (eventBufferingEnabledS == 'true');
             adjustConfig.setEventBufferingEnabled(eventBufferingEnabled);
         }
 
         if ('sendInBackground' in params) {
-            var sendInBackgroundS = params['sendInBackground'][0];
+            var sendInBackgroundS = this.getValueFromKey(params, 'sendInBackground')[0];
             var sendInBackground = (sendInBackgroundS == 'true');
             adjustConfig.setSendInBackground(sendInBackground);
         }
 
         if ('userAgent' in params) {
-            var userAgent = params['userAgent'][0];
+            var userAgent = this.getValueFromKey(params, 'userAgent')[0];
             adjustConfig.setUserAgent(userAgent);
         }
 
@@ -148,7 +155,7 @@ class AdjustCommandExecutor {
         this.config(params);
         var configName = null;
         if ('configName' in params) {
-            configName = params['configName'][0];
+            configName = this.getValueFromKey(params, 'configName')[0];
         } else {
             configName = this.DefaultConfigName;
         }
@@ -167,7 +174,7 @@ class AdjustCommandExecutor {
     event(params) {
         var eventName = null;
         if ('eventName' in params) {
-            eventName = params['eventName'][0];
+            eventName = this.getValueFromKey(params, 'eventName')[0];
         } else {
             eventName = this.DefaultEventName;
         }
@@ -178,20 +185,20 @@ class AdjustCommandExecutor {
             adjustEvent = new AdjustEvent(null);
             adjustEvent.clone(frozenAdjustEvent);
         } else {
-            var eventToken = params['eventToken'][0];
+            var eventToken = this.getValueFromKey(params, 'eventToken')[0];
             adjustEvent = new AdjustEvent(eventToken);
             this.savedInstances[eventName] = adjustEvent;
-        }
+        } 
 
         if ('revenue' in params) {
-            var revenueParams = params['revenue'];
+            var revenueParams = this.getValueFromKey(params, 'revenue');
             var currency = revenueParams[0];
             var revenue = parseFloat(revenueParams[1]);
             adjustEvent.setRevenue(revenue, currency);
         }
 
         if ('callbackParams' in params) {
-            var callbackParams = params["callbackParams"];
+            var callbackParams = this.getValueFromKey(params, "callbackParams");
             for (var i = 0; i < callbackParams.length; i = i + 2) {
                 var key = callbackParams[i];
                 var value = callbackParams[i + 1];
@@ -199,7 +206,7 @@ class AdjustCommandExecutor {
             }
         }
         if ('partnerParams' in params) {
-            var partnerParams = params["partnerParams"];
+            var partnerParams = this.getValueFromKey(params, "partnerParams");
             for (var i = 0; i < partnerParams.length; i = i + 2) {
                 var key = partnerParams[i];
                 var value = partnerParams[i + 1];
@@ -208,7 +215,7 @@ class AdjustCommandExecutor {
         }
         //TODO: Add JS wrapper for order Id
         //if ('orderId' in params) {
-        //var orderId = params['orderId'][0];
+        //var orderId = this.getValueFromKey(params, 'orderId')[0];
         //adjustEvent.setOrderId(orderId);
         //}
 
@@ -222,7 +229,7 @@ class AdjustCommandExecutor {
         this.event(params);
         var eventName = null;
         if ('eventName' in params) {
-            eventName = params['eventName'][0];
+            eventName = this.getValueFromKey(params, 'eventName')[0];
         } else {
             eventName = this.DefaultEventName;
         }
@@ -231,7 +238,7 @@ class AdjustCommandExecutor {
     }
 
     setReferrer(params) {
-        var referrer = params['referrer'][0];
+        var referrer = this.getValueFromKey(params, 'referrer')[0];
         Adjust.setReferrer(referrer);
     }
 
@@ -244,12 +251,12 @@ class AdjustCommandExecutor {
     }
 
     setEnabled(params) {
-        var enabled = params["enabled"][0] == 'true';
+        var enabled = this.getValueFromKey(params, "enabled")[0] == 'true';
         Adjust.setEnabled(enabled);
     }
 
     setOfflineMode(params) {
-        var enabled = params["enabled"][0] == 'true';
+        var enabled = this.getValueFromKey(params, "enabled")[0] == 'true';
         Adjust.setOfflineMode(enabled);
     }
 
@@ -258,7 +265,7 @@ class AdjustCommandExecutor {
     }
 
     addSessionCallbackParameter(params) {
-        for (var param in params["KeyValue"]) {
+        for (var param in this.getValueFromKey(params, "KeyValue")) {
             var key = param[0];
             var value = param[1];
             console.log(`[*RN*] addSessionCallbackParameter: key ${key} value ${value}`);
@@ -267,7 +274,7 @@ class AdjustCommandExecutor {
     }
 
     addSessionPartnerParameter(params) {
-        for (var param in params["KeyValue"]) {
+        for (var param in this.getValueFromKey(params, "KeyValue")) {
             var key = param[0];
             var value = param[1];
             console.log(`[*RN*] addSessionPartnerParameter: key ${key} value ${value}`);
@@ -276,12 +283,12 @@ class AdjustCommandExecutor {
     }
 
     removeSessionCallbackParameter(params) {
-        var key = params['key'][0];
+        var key = this.getValueFromKey(params, 'key')[0];
         Adjust.removeSessionCallbackParameter(key);
     }
 
     removeSessionPartnerParameter(params) {
-        var key = params['key'][0];
+        var key = this.getValueFromKey(params, 'key')[0];
 
         Adjust.removeSessionPartnerParameter(key);
     }
@@ -295,20 +302,20 @@ class AdjustCommandExecutor {
     }
 
     setPushToken(params) {
-        var token = params['pushToken'][0];
+        var token = this.getValueFromKey(params, 'pushToken')[0];
         Adjust.setPushToken(token);
     }
 
     openDeeplink(params) {
         console.log("[*RN*] openDeeplink");
-        var deeplink = params["deeplink"][0];
+        var deeplink = this.getValueFromKey(params, "deeplink")[0];
         Adjust.appWillOpenUrl(deeplink);
     }
 
     testBegin(params) {
         console.log("[*RN*] testBegin");
-        if ('basePath' in params)) {
-            this.basePath = params["basePath"][0];
+        if ('basePath' in params) {
+            this.basePath = this.getValueFromKey(params, "basePath")[0];
         }
 
         Adjust.teardown(true);
@@ -316,7 +323,7 @@ class AdjustCommandExecutor {
         Adjust.setTimerStart(-1);
         Adjust.setSessionInterval(-1);
         Adjust.setSubsessionInterval(-1);
-        for (var member in savedInstances) delete savedInstances[member];
+        for (var member in this.savedInstances) delete this.savedInstances[member];
     }
 
     testEnd(params) {
