@@ -30,7 +30,6 @@ class AdjustCommandExecutor {
     executeCommand(methodName, params) {
         switch (methodName) {
             case "factory"                        : this.factory(params); break;
-            case "teardown"                       : this.teardown(params); break;
             case "config"                         : this.config(params); break;
             case "start"                          : this.start(params); break;
             case "event"                          : this.event(params); break;
@@ -48,6 +47,10 @@ class AdjustCommandExecutor {
             case "resetSessionCallbackParameters" : this.resetSessionCallbackParameters(params); break;
             case "resetSessionPartnerParameters"  : this.resetSessionPartnerParameters(params); break;
             case "setPushToken"                   : this.setPushToken(params); break;
+            case "teardown"                       : this.teardown(params); break;
+            case "openDeeplink"                   : this.openDeeplink(params); break;
+            case "testBegin"                      : this.testBegin(params); break;
+            case "testEnd"                        : this.testEnd(params); break;
         }
     }
 
@@ -208,7 +211,7 @@ class AdjustCommandExecutor {
         //var orderId = params['orderId'][0];
         //adjustEvent.setOrderId(orderId);
         //}
-        
+
         //resave the modified adjustEvent
         this.savedInstances[eventName] = adjustEvent;
 
@@ -255,17 +258,19 @@ class AdjustCommandExecutor {
     }
 
     addSessionCallbackParameter(params) {
-        for (var param in params) {
+        for (var param in params["KeyValue"]) {
             var key = param[0];
             var value = param[1];
+            console.log(`[*RN*] addSessionCallbackParameter: key ${key} value ${value}`);
             Adjust.addSessionCallbackParameter(key, value);
         }
     }
 
     addSessionPartnerParameter(params) {
-        for (var param in params) {
+        for (var param in params["KeyValue"]) {
             var key = param[0];
             var value = param[1];
+            console.log(`[*RN*] addSessionPartnerParameter: key ${key} value ${value}`);
             Adjust.addSessionPartnerParameter(key, value);
         }
     }
@@ -292,6 +297,31 @@ class AdjustCommandExecutor {
     setPushToken(params) {
         var token = params['pushToken'][0];
         Adjust.setPushToken(token);
+    }
+
+    openDeeplink(params) {
+        console.log("[*RN*] openDeeplink");
+        var deeplink = params["deeplink"][0];
+        Adjust.appWillOpenUrl(deeplink);
+    }
+
+    testBegin(params) {
+        console.log("[*RN*] testBegin");
+        if ('basePath' in params)) {
+            this.basePath = params["basePath"][0];
+        }
+
+        Adjust.teardown(true);
+        Adjust.setTimerInterval(-1);
+        Adjust.setTimerStart(-1);
+        Adjust.setSessionInterval(-1);
+        Adjust.setSubsessionInterval(-1);
+        for (var member in savedInstances) delete savedInstances[member];
+    }
+
+    testEnd(params) {
+        console.log("[*RN*] testEnd");
+        Adjust.teardown(true);
     }
 }
 

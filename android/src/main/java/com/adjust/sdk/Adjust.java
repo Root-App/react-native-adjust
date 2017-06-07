@@ -416,6 +416,26 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
         com.adjust.sdk.Adjust.onPause();
     }
 
+    @ReactMethod
+    public void setTimerInterval(long timerInterval) {
+        com.adjust.sdk.AdjustFactory.setTimerInterval(timerInterval);
+    }
+
+    @ReactMethod
+    public void setTimerStart(long timerStart) {
+        com.adjust.sdk.AdjustFactory.setTimerStart(timerStart);
+    }
+
+    @ReactMethod
+    public void setSessionInterval(long sessionInterval) {
+        com.adjust.sdk.AdjustFactory.setSessionInterval(sessionInterval);
+    }
+
+    @ReactMethod
+    public void setSubsessionInterval(long subsessionInterval) {
+        com.adjust.sdk.AdjustFactory.setSubsessionInterval(subsessionInterval);
+    }
+
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
         reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)

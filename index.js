@@ -97,6 +97,26 @@ Adjust.onPause = function () {
     module_adjust.onPause();
 };
 
+Adjust.teardown = function (deleteState) {
+    module_adjust.teardown(deleteState);
+};
+
+Adjust.setTimerInterval = function (timerInterval) {
+    module_adjust.setTimerInterval(timerInterval);
+};
+
+Adjust.setTimerStart = function (timerStart) {
+    module_adjust.setTimerStart(timerStart);
+};
+
+Adjust.setSessionInterval = function (sessionInterval) {
+    module_adjust.setSessionInterval(sessionInterval);
+};
+
+Adjust.setSubsessionInterval = function (subsessionInterval) {
+    module_adjust.setSubsessionInterval(subsessionInterval);
+};
+
 var AdjustEvent = function (eventToken) {
     this.eventToken = eventToken;
     this.revenue = null;
