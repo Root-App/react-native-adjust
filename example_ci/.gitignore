@@ -1,7 +1,9 @@
-# OS X
+# OSX
+#
 .DS_Store
 
 # Xcode
+#
 build/
 *.pbxuser
 !default.pbxuser
@@ -13,82 +15,40 @@ build/
 !default.perspectivev3
 xcuserdata
 *.xccheckout
-profile
 *.moved-aside
 DerivedData
 *.hmap
 *.ipa
+*.xcuserstate
+project.xcworkspace
 
-# CocoaPods
-Pods
-
-# git files
-*.orig
-# Copyright: Benjamin Weiss (keyboardsurfer) https://github.com/keyboardsurfer
-# Under CC-BY-SA V3.0 (https://creativecommons.org/licenses/by-sa/3.0/legalcode)
-
-# orig files
-*.orig
-
-# built application files
-*.apk
-*.ap_
-
-# lint folder
-lint
-
-# files for the dex VM
-*.dex
-
-# Java class files
-*.class
-
-# generated files
-bin/
-gen/
-classes/
-gen-external-apklibs/
-
-# maven output folder
-target
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Eclipse project files
-.classpath
-.project
-.metadata
-.settings
-
-# IntelliJ files
+# Android/IntelliJ
+#
+build/
 .idea
+.gradle
+local.properties
 *.iml
 
-# OSX files
-.DS_Store
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
 
-# Windows files
-Thumbs.db
+# BUCK
+buck-out/
+\.buckd/
+android/app/libs
+*.keystore
 
-# vi swap files
-*.swp
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
-# backup files
-*.bak
-
-# gradle directory
-.gradle
-.gradletasknamecache
-gradlew
-gradlew.bat
-gradle/
-build/
-
-# for oh-my-zsh jira plugin (https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#jira)
-.jira-url
-atlassian-ide-plugin.xml
-
-# exceptions
-!android/libs/
-!android/app/libs/
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
