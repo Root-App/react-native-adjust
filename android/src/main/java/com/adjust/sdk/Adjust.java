@@ -417,23 +417,23 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
     }
 
     @ReactMethod
-    public void setTimerInterval(long timerInterval) {
-        com.adjust.sdk.AdjustFactory.setTimerInterval(timerInterval);
+    public void setTimerInterval(double timerInterval) {
+        com.adjust.sdk.AdjustFactory.setTimerInterval((long)timerInterval);
     }
 
     @ReactMethod
-    public void setTimerStart(long timerStart) {
-        com.adjust.sdk.AdjustFactory.setTimerStart(timerStart);
+    public void setTimerStart(double timerStart) {
+        com.adjust.sdk.AdjustFactory.setTimerStart((long)timerStart);
     }
 
     @ReactMethod
-    public void setSessionInterval(long sessionInterval) {
-        com.adjust.sdk.AdjustFactory.setSessionInterval(sessionInterval);
+    public void setSessionInterval(double sessionInterval) {
+        com.adjust.sdk.AdjustFactory.setSessionInterval((long)sessionInterval);
     }
 
     @ReactMethod
-    public void setSubsessionInterval(long subsessionInterval) {
-        com.adjust.sdk.AdjustFactory.setSubsessionInterval(subsessionInterval);
+    public void setSubsessionInterval(double subsessionInterval) {
+        com.adjust.sdk.AdjustFactory.setSubsessionInterval((long)subsessionInterval);
     }
 
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
