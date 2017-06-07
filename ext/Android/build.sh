@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # - Build the JAR file by running the following Gradle tasks
 #   - clean
-#   - clearJar
 #   - makeJar
 # - Copy the JAR file to the root dir
 
@@ -27,7 +26,7 @@ cd $(dirname $0)
 
 cd $BUILD_DIR
 echo -e "${GREEN}>>> Running Gradle tasks: clean clearJar makeJar ${NC}"
-./gradlew clean clearJar makeJar
+./gradlew clean :adjust:makeJar
 
 echo -e "${GREEN}>>> Moving the jar from ${JAR_IN_DIR} to ${JAR_OUT_DIR} ${NC}"
 mkdir ${SDK_DIR}/${JAR_OUT_DIR}
