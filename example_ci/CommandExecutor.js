@@ -197,6 +197,7 @@ class AdjustCommandExecutor {
                 adjustEvent.addCallbackParameter(key, value);
             }
         }
+
         if ('partnerParams' in params) {
             var partnerParams = this.getValueFromKey(params, "partnerParams");
             for (var i = 0; i < partnerParams.length; i = i + 2) {
@@ -205,11 +206,11 @@ class AdjustCommandExecutor {
                 adjustEvent.addPartnerParameter(key, value);
             }
         }
-        //TODO: Add JS wrapper for order Id
-        //if ('orderId' in params) {
-        //var orderId = this.getFirstParameterValue(params, 'orderId');
-        //adjustEvent.setOrderId(orderId);
-        //}
+        
+        if ('orderId' in params) {
+            var orderId = getFirstParameterValue(params, 'orderId');
+            adjustEvent.setTransactionId(orderId);
+        }
 
         //resave the modified adjustEvent
         this.savedInstances[eventName] = adjustEvent;
